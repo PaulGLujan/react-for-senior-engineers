@@ -44,3 +44,15 @@ $form-error-border: var(--dse-form-error-border, $red) !default;
 $form-border-focus-color: var(--dse-form-border-focus-color, $green) !default;
 
 /*=====  End of Forms  ======*/
+
+/*=============================================
+=            App Bar            =
+=============================================*/
+$app-bar-bg-color-light: var(--dse-app-bar-bg-color, $white) !default;
+$app-bar-bg-primary-color: var(--dse-app-bar-primary-color, $purple) !default;
+$app-bar-bg-color-hover: var(
+  --dse-app-bar-bg-color-hover,
+  $white-dark
+) !default;
+
+/*=====  End of App Bar  ======*/
