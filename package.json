@@ -1,14 +1,24 @@
 {
-  "name": "react-for-senior-engineers",
+  "name": "@ds.e/core",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "yarn lerna run build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "husky": "^8.0.1"
+    "husky": "^8.0.1",
+    "lerna": "^6.0.1"
+  },
+  "private": true,
+  "workspaces": {
+    "nohoist": [
+      "**/normalize-scss"
+    ],
+    "packages": [
+      "packages/*"
+    ]
   }
 }
