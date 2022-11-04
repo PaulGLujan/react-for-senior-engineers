@@ -18,7 +18,8 @@
       "**/normalize-scss"
     ],
     "packages": [
-      "packages/*"
+      "packages/*",
+      "playgrounds/*"
     ]
   }
 }
