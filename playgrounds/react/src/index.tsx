@@ -1,11 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Button } from '@ds.e/react';
-
-import '@ds.e/scss/lib/Button.css';
-
 ReactDOM.render(
-  <Button label='Playground Button' />,
+  <h1>Hello World!</h1>,
   document.querySelector('#root')
 );
