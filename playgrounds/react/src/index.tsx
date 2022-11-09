@@ -5,6 +5,7 @@ import { Margin, Select, Text } from '@ds.e/react';
 
 import '@ds.e/scss/lib/global.css';
 import '@ds.e/scss/lib/Margin.css';
+import '@ds.e/scss/lib/Select.css';
 import '@ds.e/scss/lib/Text.css';
 import '@ds.e/scss/lib/Utilities.css';
 
@@ -24,7 +25,7 @@ ReactDOM.render(
     <Margin left right space='md'>
       <Text size='xs'>This is some text</Text>
     </Margin>
-    <Select label='Select Component ehh' options={options} />
+    <Select options={options} />
   </div>,
   document.querySelector('#root')
 );
