@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Text from '../../atoms/Text';
 
 interface SelectProps {
   label?: string
@@ -19,12 +20,15 @@ const Select: React.FC<SelectProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const labelRef = useRef<HTMLButtonElement>(null);
   const [overlayTop, setOverlayTop] = useState<number>(0);
+  const [selectedIndex, setSelectedIndex] = useState<null | number>(null);
 
   const onOptionSelected = (option: SelectOption, optionIndex: number) => {
-    setIsOpen(!isOpen)
     if (handler) {
       handler(option, optionIndex);
     }
+
+    setSelectedIndex(optionIndex);
+    setIsOpen(false);
   };
 
   const onLabelClick = () => {
@@ -37,10 +41,16 @@ const Select: React.FC<SelectProps> = ({
     ) + 10)
   }, [labelRef.current?.offsetHeight]);
 
+  let selectedOption = null;
+
+  if (selectedIndex !== null) {
+    selectedOption = options[selectedIndex];
+  }
+
   return (
     <div className='dse-select'>
       <button className='dse-select__label' onClick={onLabelClick} ref={labelRef}>
-        <span>{label}</span>
+        <Text>{selectedOption ? selectedOption.label : label}</Text>
 
         <svg width={'1rem'} height={'1rem'} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -52,12 +62,19 @@ const Select: React.FC<SelectProps> = ({
         (
           <ul className='dse-select__overlay' style={{ top: overlayTop }}>
             {options.map((option, optionIndex) => {
+              const isSelected = selectedIndex === optionIndex;
+
               return (
                 <li
-                  className='dse-select__option'
+                  className={`dse-select__option ${isSelected ? 'dse-select__option--selected' : ''}`}
                   key={option.value}
                   onClick={() => { onOptionSelected(option, optionIndex) }}>
-                  {option.label}
+                  <Text>{option.label}</Text>
+
+                  {isSelected ? (<svg height={'1rem'} width={'1rem'} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  ) : null}
                 </li>
               )
             })}

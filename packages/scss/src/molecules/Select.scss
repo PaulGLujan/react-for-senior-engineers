@@ -37,6 +37,7 @@
   &__option {
     @include padding("xs");
     align-items: center;
+    box-sizing: border-box;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -45,5 +46,10 @@
 
   &__option:hover {
     background-color: $form-bg-color-hover;
+  }
+
+  &__option--selected {
+    background-color: $form-bg-option-selected;
+    color: $form-color-option-selected;
   }
 }
