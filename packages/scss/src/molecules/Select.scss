@@ -26,10 +26,24 @@
     border: 1px solid $form-border-color;
 
     box-shadow: map-get($map: $shadows, $key: "base");
+    list-style-type: none;
 
     position: absolute;
 
     width: 100%;
     z-index: 99;
+  }
+
+  &__option {
+    @include padding("xs");
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__option:hover {
+    background-color: $form-bg-color-hover;
   }
 }

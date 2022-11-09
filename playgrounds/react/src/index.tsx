@@ -21,7 +21,7 @@ const options = [{
 }]
 
 ReactDOM.render(
-  <div>
+  <div style={{ padding: '40px' }}>
     <Margin left right space='md'>
       <Text size='xs'>This is some text</Text>
     </Margin>
