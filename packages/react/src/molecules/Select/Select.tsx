@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import Text from '../../atoms/Text';
 
 interface SelectProps {
   label?: string
   onOptionSelected?: (option: SelectOption, optionIndex: number) => void
   options?: SelectOption[]
+  renderOption?: (props: RenderOptionProps) => React.ReactNode
 }
 
 interface SelectOption {
@@ -12,10 +13,17 @@ interface SelectOption {
   value: string
 }
 
-const Select: React.FC<SelectProps> = ({
+interface RenderOptionProps {
+  getOptionRecommendedProps: (overrideProps?: Object) => Object
+  isSelected: boolean
+  option: SelectOption
+}
+
+const Select: React.FC<PropsWithChildren<SelectProps>> = ({
   label = 'Please select an option...',
   onOptionSelected: handler,
-  options = []
+  options = [],
+  renderOption,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const labelRef = useRef<HTMLButtonElement>(null);
@@ -71,6 +79,23 @@ const Select: React.FC<SelectProps> = ({
             {options.map((option, optionIndex) => {
               const isSelected = selectedIndex === optionIndex;
 
+              const renderOptionProps = {
+                getOptionRecommendedProps: (overrideProps = {}) => {
+                  return {
+                    className: `dse-select__option ${isSelected ? 'dse-select__option--selected' : ''}`,
+                    key: option.value,
+                    onClick: () => onOptionSelected(option, optionIndex),
+                    ...overrideProps
+                  }
+                },
+                isSelected,
+                option
+              };
+
+              if (renderOption) {
+                return renderOption(renderOptionProps);
+              }
+
               return (
                 <li
                   className={`dse-select__option ${isSelected ? 'dse-select__option--selected' : ''}`}
@@ -78,9 +103,18 @@ const Select: React.FC<SelectProps> = ({
                   onClick={() => { onOptionSelected(option, optionIndex) }}>
                   <Text>{option.label}</Text>
 
-                  {isSelected ? (<svg height={'1rem'} width={'1rem'} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
+                  {isSelected ? (
+                    <svg
+                      height={'1rem'}
+                      width={'1rem'}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none" viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
                   ) : null}
                 </li>
               )
