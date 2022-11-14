@@ -56,7 +56,7 @@
     width: 100%;
   }
 
-  &__option:hover {
+  &__option--highlighted {
     background-color: $form-bg-color-hover;
   }
 

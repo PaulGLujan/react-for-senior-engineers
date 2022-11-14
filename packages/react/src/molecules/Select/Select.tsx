@@ -1,5 +1,11 @@
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { createRef, KeyboardEventHandler, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import Text from '../../atoms/Text';
+
+const KEY_CODES = {
+  ENTER: 13,
+  SPACE: 32,
+  DOWN_ARROW: 40
+}
 
 interface SelectProps {
   label?: string
@@ -25,8 +31,10 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
   options = [],
   renderOption,
 }) => {
+  const [highlightedIndex, setHighlightedIndex] = useState<null | number>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const labelRef = useRef<HTMLButtonElement>(null);
+  const [optionRefs, setOptionRefs] = useState<React.RefObject<HTMLLIElement>[]>([]);
   const [overlayTop, setOverlayTop] = useState<number>(0);
   const [selectedIndex, setSelectedIndex] = useState<null | number>(null);
 
@@ -43,6 +51,25 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
     setIsOpen(!isOpen);
   };
 
+  const onKeyDown: KeyboardEventHandler = (event) => {
+    event.preventDefault();
+
+    if ([
+      KEY_CODES.DOWN_ARROW,
+      KEY_CODES.ENTER,
+      KEY_CODES.SPACE,
+    ].includes(event.keyCode)) {
+      setIsOpen(true);
+
+
+      highlightItem(0);
+    }
+  }
+
+  const highlightItem = (optionIndex: number | null) => {
+    setHighlightedIndex(optionIndex);
+  };
+
   useEffect(() => {
     setOverlayTop((
       labelRef.current?.offsetHeight || 0
@@ -55,9 +82,30 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
     selectedOption = options[selectedIndex];
   }
 
+  useEffect(() => {
+    setOptionRefs(options.map(_ => {
+      return createRef<HTMLLIElement>();
+    }))
+  }, [options.length]);
+
+  useEffect(() => {
+    if (isOpen && highlightedIndex !== null) {
+      const highlightedRef = optionRefs[highlightedIndex];
+      highlightedRef?.current?.focus();
+    }
+  }, [isOpen]);
+
   return (
     <div className='dse-select'>
-      <button aria-controls='dse-select-list' aria-expanded={isOpen} aria-haspopup={true} className='dse-select__label' onClick={onLabelClick} ref={labelRef}>
+      <button
+        aria-controls='dse-select-list'
+        aria-expanded={isOpen}
+        aria-haspopup={true}
+        className='dse-select__label'
+        onKeyDown={onKeyDown}
+        onClick={onLabelClick}
+        ref={labelRef}
+      >
         <Text>{selectedOption ? selectedOption.label : label}</Text>
 
         <svg
@@ -78,18 +126,26 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
           <ul aria-hidden={!isOpen} className='dse-select__overlay' id='dse-select-list' role={'menu'} style={{ top: overlayTop }}>
             {options.map((option, optionIndex) => {
               const isSelected = selectedIndex === optionIndex;
+              const isHighlighted = highlightedIndex === optionIndex;
+              const ref = optionRefs[optionIndex];
 
               const renderOptionProps = {
                 getOptionRecommendedProps: (overrideProps = {}) => {
                   return {
-                    className: `dse-select__option ${isSelected ? 'dse-select__option--selected' : ''}`,
+                    className: `dse-select__option 
+                    ${isSelected ? 'dse-select__option--selected' : ''}
+                    ${isHighlighted ? 'dse-select__option--highlighted' : ''}`,
                     key: option.value,
                     onClick: () => onOptionSelected(option, optionIndex),
+                    onMouseEnter: () => { highlightItem(optionIndex) },
+                    onMouseLeave: () => { highlightItem(null) },
+                    ref,
                     ...overrideProps
                   }
                 },
                 isSelected,
-                option
+                option,
+                ref
               };
 
               if (renderOption) {
@@ -98,9 +154,8 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
 
               return (
                 <li
-                  className={`dse-select__option ${isSelected ? 'dse-select__option--selected' : ''}`}
-                  key={option.value}
-                  onClick={() => { onOptionSelected(option, optionIndex) }}>
+                  {...renderOptionProps.getOptionRecommendedProps()}
+                >
                   <Text>{option.label}</Text>
 
                   {isSelected ? (
