@@ -2,9 +2,11 @@ import React, { createRef, KeyboardEventHandler, PropsWithChildren, useEffect, u
 import Text from '../../atoms/Text';
 
 const KEY_CODES = {
+  DOWN_ARROW: 40,
   ENTER: 13,
+  ESC: 27,
   SPACE: 32,
-  DOWN_ARROW: 40
+  UP_ARROW: 38,
 }
 
 interface SelectProps {
@@ -24,6 +26,30 @@ interface RenderOptionProps {
   isSelected: boolean
   option: SelectOption
 }
+
+const getNextOptionIndex = (currentIndex: null | number, options: Array<SelectOption>) => {
+  if (currentIndex === null) {
+    return 0;
+  }
+
+  if (currentIndex === options.length - 1) {
+    return 0
+  }
+
+  return currentIndex + 1;
+};
+
+const getPreviousOptionIndex = (currentIndex: null | number, options: Array<SelectOption>) => {
+  if (currentIndex === null) {
+    return 0;
+  }
+
+  if (currentIndex === 0) {
+    return options.length - 1;
+  }
+
+  return currentIndex - 1;
+};
 
 const Select: React.FC<PropsWithChildren<SelectProps>> = ({
   label = 'Please select an option...',
@@ -62,11 +88,32 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
       setIsOpen(true);
 
 
-      highlightItem(0);
+      highlightOption(0);
     }
   }
 
-  const highlightItem = (optionIndex: number | null) => {
+  const onOptionKeyDown: KeyboardEventHandler = (event) => {
+    if (event.keyCode === KEY_CODES.ESC) {
+      setIsOpen(false);
+      return
+    }
+
+    if (event.keyCode === KEY_CODES.DOWN_ARROW) {
+      const nextOptionIndex = getNextOptionIndex(highlightedIndex, options);
+      highlightOption(nextOptionIndex);
+    }
+
+    if (event.keyCode === KEY_CODES.UP_ARROW) {
+      const previousOptionIndex = getPreviousOptionIndex(highlightedIndex, options);
+      highlightOption(previousOptionIndex);
+    }
+
+    if (event.keyCode === KEY_CODES.ENTER && highlightedIndex !== null) {
+      onOptionSelected(options[highlightedIndex], highlightedIndex);
+    }
+  }
+
+  const highlightOption = (optionIndex: number | null) => {
     setHighlightedIndex(optionIndex);
   };
 
@@ -93,7 +140,7 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
       const highlightedRef = optionRefs[highlightedIndex];
       highlightedRef?.current?.focus();
     }
-  }, [isOpen]);
+  }, [highlightedIndex, isOpen]);
 
   return (
     <div className='dse-select'>
@@ -132,20 +179,24 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
               const renderOptionProps = {
                 getOptionRecommendedProps: (overrideProps = {}) => {
                   return {
+                    'aria-checked': isSelected,
+                    'aria-label': option.label,
                     className: `dse-select__option 
                     ${isSelected ? 'dse-select__option--selected' : ''}
                     ${isHighlighted ? 'dse-select__option--highlighted' : ''}`,
                     key: option.value,
                     onClick: () => onOptionSelected(option, optionIndex),
-                    onMouseEnter: () => { highlightItem(optionIndex) },
-                    onMouseLeave: () => { highlightItem(null) },
+                    onKeyDown: onOptionKeyDown,
+                    onMouseEnter: () => { highlightOption(optionIndex) },
+                    onMouseLeave: () => { highlightOption(null) },
                     ref,
+                    role: 'menuitemradio',
+                    tabIndex: isHighlighted ? -1 : 0,
                     ...overrideProps
                   }
                 },
                 isSelected,
-                option,
-                ref
+                option
               };
 
               if (renderOption) {
