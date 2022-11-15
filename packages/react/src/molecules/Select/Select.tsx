@@ -149,6 +149,7 @@ const Select: React.FC<PropsWithChildren<SelectProps>> = ({
         aria-expanded={isOpen}
         aria-haspopup={true}
         className='dse-select__label'
+        data-testid='DseSelectButton'
         onKeyDown={onKeyDown}
         onClick={onLabelClick}
         ref={labelRef}
