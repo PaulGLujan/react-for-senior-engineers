@@ -18,6 +18,13 @@
     "stylelint-config-sass-guidelines": "^9.0.1",
     "stylelint-prettier": "^2.0.0"
   },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "node src/scripts/build.js",
     "dev": "nodemon --watch src --exec yarn build -e scss",

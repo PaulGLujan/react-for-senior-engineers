@@ -32,6 +32,12 @@
     "rollup-plugin-typescript2": "^0.34.1",
     "typescript": "^4.8.4"
   },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c",
     "dev": "yarn build --watch",
