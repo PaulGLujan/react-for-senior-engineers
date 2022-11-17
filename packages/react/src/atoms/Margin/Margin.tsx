@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { Spacing } from '@ds.e/foundation'
+import { Spacing } from '@pterodactylpaultest/foundation'
 
 interface MarginProps {
   children: React.ReactNode

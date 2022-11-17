@@ -1,8 +1,8 @@
 import React from 'react';
 import Select from './Select';
 
-import '@ds.e/scss/lib/Select.css';
-import '@ds.e/scss/lib/Text.css'
+import '@pterodactylpaultest/scss/lib/Select.css';
+import '@pterodactylpaultest/scss/lib/Text.css'
 
 interface RenderOptionProps {
   getOptionRecommendedProps: (overrideProps?: Object) => Object

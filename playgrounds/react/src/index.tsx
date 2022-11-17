@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Margin, Select, Text } from '@ds.e/react';
+import { Margin, Select, Text } from '@pterodactylpaultest/react';
 
-import '@ds.e/scss/lib/global.css';
-import '@ds.e/scss/lib/Margin.css';
-import '@ds.e/scss/lib/Select.css';
-import '@ds.e/scss/lib/Text.css';
-import '@ds.e/scss/lib/Utilities.css';
+import '@pterodactylpaultest/scss/lib/global.css';
+import '@pterodactylpaultest/scss/lib/Margin.css';
+import '@pterodactylpaultest/scss/lib/Select.css';
+import '@pterodactylpaultest/scss/lib/Text.css';
+import '@pterodactylpaultest/scss/lib/Utilities.css';
 
 const options = [{
   label: 'Strict Black',

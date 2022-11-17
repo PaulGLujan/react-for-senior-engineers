@@ -15,5 +15,5 @@ export default {
     preserveModules: true,
   },
   plugins: [Ts()],
-  external: ["react", "@ds.e/foundation"],
+  external: ["react", "@pterodactylpaultest/foundation"],
 };

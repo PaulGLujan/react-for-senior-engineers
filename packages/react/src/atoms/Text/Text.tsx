@@ -1,5 +1,5 @@
 import React from 'react'
-import { FontSizes } from '@ds.e/foundation'
+import { FontSizes } from '@pterodactylpaultest/foundation'
 
 interface TextProps {
   children?: React.ReactNode
