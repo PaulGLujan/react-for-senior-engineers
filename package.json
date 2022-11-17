@@ -6,6 +6,7 @@
   "scripts": {
     "build": "yarn lerna run build",
     "dev": "yarn lerna run dev",
+    "publish": "yarn test && yarn build && yarn lerna publish",
     "test": "yarn lerna run test"
   },
   "author": "",
