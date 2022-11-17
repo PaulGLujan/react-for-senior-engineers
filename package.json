@@ -5,13 +5,21 @@
   "main": "index.js",
   "scripts": {
     "build": "yarn lerna run build",
+    "commit": "yarn git-cz",
     "dev": "yarn lerna run dev",
     "publish": "yarn test && yarn build && yarn lerna publish",
     "test": "yarn lerna run test"
   },
   "author": "",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
   "license": "ISC",
   "devDependencies": {
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.1",
     "lerna": "^6.0.1"
   },
