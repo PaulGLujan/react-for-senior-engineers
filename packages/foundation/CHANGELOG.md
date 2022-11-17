@@ -1,0 +1,10 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.1.3](https://github.com/PaulGLujan/react-for-senior-engineers/compare/v0.1.2...v0.1.3) (2022-11-17)
+
+### Bug Fixes
+
+- **docs:** update comments in packages ([d957420](https://github.com/PaulGLujan/react-for-senior-engineers/commit/d95742033ea98df7a49fa4e3c745bfa24c69b112))
