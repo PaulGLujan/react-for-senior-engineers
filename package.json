@@ -18,9 +18,11 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
     "commitizen": "^4.2.5",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.2",
     "lerna": "^6.0.1"
   },
   "private": true,
