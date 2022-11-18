@@ -3,7 +3,7 @@ const Path = require("path");
 const Sass = require("node-sass");
 
 const getComponents = () => {
-  const types = ["atoms", "molecules", "organisms"];
+  const types = ["atoms", "molecules"];
 
   const allComponents = types.reduce((allComponents, type) => {
     const allFiles = Fs.readdirSync(`src/${type}`).map((file) => ({
@@ -23,6 +23,10 @@ const compile = (path, fileName) => {
     outFile: "global.css",
     includePaths: [Path.resolve("src")],
   });
+
+  try {
+    Fs.mkdirSync(Path.resolve("lib"));
+  } catch (error) {}
 
   Fs.writeFileSync(Path.resolve(fileName), result.css.toString());
 };
