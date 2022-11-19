@@ -8,7 +8,8 @@
     "commit": "yarn git-cz",
     "dev": "yarn lerna run dev",
     "publish": "yarn test && yarn build && yarn lerna publish",
-    "test": "yarn lerna run test"
+    "test": "yarn lerna run test",
+    "test:chromatic": "yarn lerna run test:chromatic"
   },
   "author": "",
   "config": {

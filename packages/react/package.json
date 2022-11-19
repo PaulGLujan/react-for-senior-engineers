@@ -46,7 +46,7 @@
     "test:watch": "yarn test --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=8a02ed5d8cba"
+    "test:chromatic": "npx chromatic --project-token=\"$CHROMATIC_PROJECT_TOKEN\""
   },
   "type": "module"
 }
