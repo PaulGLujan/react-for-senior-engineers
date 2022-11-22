@@ -9,7 +9,8 @@
     "dev": "yarn lerna run dev",
     "publish": "yarn test && yarn build && yarn lerna publish",
     "test": "yarn lerna run test",
-    "test:chromatic": "yarn lerna run test:chromatic"
+    "test:chromatic": "yarn lerna run test:chromatic",
+    "build:storybook": "yarn build && yarn lerna run build-storybook"
   },
   "author": "",
   "config": {
